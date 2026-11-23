@@ -8,6 +8,13 @@ git -v
 Ctrl Shift P -> Clone -> Clone from URL:
 https://github.com/ev45ive/sages-nextjs-open-1126.git
 
+# Npm, semver, CI
+
+https://semver.org/
+https://semver.npmjs.com/
+
+npm i // package.json -> update
+npm ci // package-lock.json -> exact sha
 
 
 # Create Next App
