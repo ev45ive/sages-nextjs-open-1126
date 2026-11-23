@@ -6,22 +6,35 @@ export const instant = false;
 
 /**
  * Lista postów na blogu
+ * http://localhost:3000/blog/
  */
 export default async function BlogPostListPage(props: PageProps<"/blog">) {
-  //   const { query } = await props.searchParams;
+  const { query = "" } = await props.searchParams;
+
+  // let filtered = query as string
+
+  // let filtered = String(query ?? '')
+  if (typeof query !== "string") {
+    throw new Error("Invalid query");
+  }
 
   return (
-    <div className="w-4xl max-w-full md:max-w-[90%] py-5 mx-auto">
-      <h1 className="text-2xl">Blog Posts</h1>
+    <div className="grid gap-5 w-4xl max-w-full md:max-w-[90%] py-5 mx-auto">
+      <h1 className="text-2xl mb-5">Blog Posts</h1>
 
       {/* .grid.grid-cols-2.gap-5>.grid.gap-2*2>h3.text-xl{Title $$} */}
-      <div className="grid grid-cols-2 gap-5">
-        <div className="grid gap-2">
-          <h3 className="text-xl">Title 01</h3>
-        </div>
-        <div className="grid gap-2">
-          <h3 className="text-xl">Title 02</h3>
-        </div>
+      <div className="grid md:grid-cols-2 gap-5">
+        {mockBlogPosts
+          .filter((p) =>
+            p.title.toLocaleLowerCase().includes(query.toLocaleLowerCase()),
+          )
+          .map((p) => (
+            <div className="grid gap-2" key={p.id}>
+              <h3 className="text-xl">
+                <a href={`/blog/${p.id}/`}>{p.title}</a>
+              </h3>
+            </div>
+          ))}
       </div>
     </div>
   );
