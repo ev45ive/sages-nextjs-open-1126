@@ -1,6 +1,6 @@
 type TOP = unknown; //any
 
-type Owoce = "banan" | "jablko" | "jablko" | "jablko";
+type Owoce = "banan" | "jablko" | "jablko" | "jablko" | never | never 
 type Warzywa = "marchewka"; // |'pietruszka'; // | string
 
 type BOTTOM = never;
