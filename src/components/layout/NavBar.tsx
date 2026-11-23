@@ -1,4 +1,5 @@
 import { Input } from "@/components/ui/input";
+import Link from "next/link";
 
 type Props = {
   title?: string;
@@ -17,10 +18,10 @@ export default function NavBar({ title = "" }: Props) {
       />
 
       <div className="flex items-center gap-3">
-        <a href="/shop">Sklep</a>
-        <a href="/blog">Blog</a>
-        <a href="/about">O nas</a>
-        <a href="/contact">Kontakt</a>
+        <Link href="/shop">Sklep</Link>
+        <Link href="/blog">Blog</Link>
+        <Link href="/about">O nas</Link>
+        <Link href="/contact">Kontakt</Link>
       </div>
     </nav>
   );

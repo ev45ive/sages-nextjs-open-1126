@@ -1,5 +1,6 @@
 import NavBar from "@/components/layout/NavBar";
 import { mockBlogPosts } from "./mockBlogPosts";
+import Link from "next/link";
 
 export const instant = false;
 
@@ -30,7 +31,7 @@ export default async function BlogPostListPage(props: PageProps<"/blog">) {
         {filteredPosts.map((p) => (
           <div className="grid gap-2" key={p.id}>
             <h3 className="text-xl">
-              <a href={`/blog/${p.id}/`}>{p.title}</a>
+              <Link href={`/blog/${p.id}/`}>{p.title}</Link>
             </h3>
           </div>
         ))}
