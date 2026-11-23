@@ -1,6 +1,8 @@
+import { mockBlogPosts } from "./mockBlogPosts";
+
 export const instant = false;
 
-
+mockBlogPosts
 
 /**
  * Lista postów na blogu
