@@ -60,3 +60,12 @@ Installing devDependencies:
 
 # GIT 
 https://typicode.github.io/husky/ 
+
+
+# Blog
+
+/
+/about/  
+/contact
+/blog/ 
+/blog/[postId]/ 
