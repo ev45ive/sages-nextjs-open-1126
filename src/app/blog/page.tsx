@@ -19,24 +19,22 @@ export default async function BlogPostListPage(props: PageProps<"/blog">) {
     throw new Error("Invalid query");
   }
 
-  return (
-    <div className="grid my-5 gap-5 bg-background font-sans container mx-auto">
-      <NavBar title="Blog Posts" />
+  const filteredPosts = mockBlogPosts.filter((p) =>
+    p.title.toLocaleLowerCase().includes(query.toLocaleLowerCase()),
+  );
 
+  return (
+    <>
       {/* .grid.grid-cols-2.gap-5>.grid.gap-2*2>h3.text-xl{Title $$} */}
       <div className="grid md:grid-cols-2 gap-5">
-        {mockBlogPosts
-          .filter((p) =>
-            p.title.toLocaleLowerCase().includes(query.toLocaleLowerCase()),
-          )
-          .map((p) => (
-            <div className="grid gap-2" key={p.id}>
-              <h3 className="text-xl">
-                <a href={`/blog/${p.id}/`}>{p.title}</a>
-              </h3>
-            </div>
-          ))}
+        {filteredPosts.map((p) => (
+          <div className="grid gap-2" key={p.id}>
+            <h3 className="text-xl">
+              <a href={`/blog/${p.id}/`}>{p.title}</a>
+            </h3>
+          </div>
+        ))}
       </div>
-    </div>
+    </>
   );
 }

@@ -1,3 +1,5 @@
+import { Input } from "@/components/ui/input";
+
 type Props = {
   title?: string;
 };
@@ -6,6 +8,13 @@ export default function NavBar({ title = "" }: Props) {
   return (
     <nav className="flex px-5 items-center justify-between gap-4 font-sans bg-accent py-5">
       {title && <a href="/">{title}</a>}
+
+      <Input
+        type="search"
+        placeholder="Szukaj"
+        aria-label="Szukaj wspisów"
+        className="h-8 w-44"
+      />
 
       <div className="flex items-center gap-3">
         <a href="/shop">Sklep</a>
