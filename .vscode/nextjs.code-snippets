@@ -5,7 +5,6 @@
     "body": [
       "/**",
       " * ${1:Opis strony}",
-      " * @route ${2:/route}",
       " */",
       "export default async function ${3:Page}(props: PageProps<\"${2:/route}\">) {",
       "  ${4:const { ${5:slug} \\} = await props.params;}",
