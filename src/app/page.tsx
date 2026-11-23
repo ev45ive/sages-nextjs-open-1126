@@ -37,6 +37,8 @@ export default function Home() {
             </a>{" "}
             center.
           </p>
+          <input type="text" />
+          <p>Ala ma psa!!!</p>
         </div>
         <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
           <a
@@ -46,7 +48,7 @@ export default function Home() {
             rel="noopener noreferrer"
           >
             <Image
-              className="dark:invert h-[14px] w-4"
+              className="dark:invert h-[14px] w-5"
               src="/vercel.svg"
               alt="Vercel logomark"
               width={16}
