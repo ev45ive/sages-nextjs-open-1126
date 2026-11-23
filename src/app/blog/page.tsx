@@ -1,3 +1,4 @@
+import NavBar from "@/components/layout/NavBar";
 import { mockBlogPosts } from "./mockBlogPosts";
 
 export const instant = false;
@@ -19,8 +20,8 @@ export default async function BlogPostListPage(props: PageProps<"/blog">) {
   }
 
   return (
-    <div className="grid gap-5 w-4xl max-w-full md:max-w-[90%] py-5 mx-auto">
-      <h1 className="text-2xl mb-5">Blog Posts</h1>
+    <div className="grid my-5 gap-5 bg-background font-sans container mx-auto">
+      <NavBar title="Blog Posts" />
 
       {/* .grid.grid-cols-2.gap-5>.grid.gap-2*2>h3.text-xl{Title $$} */}
       <div className="grid md:grid-cols-2 gap-5">
