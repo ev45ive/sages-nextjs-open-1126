@@ -18,7 +18,7 @@ export default function NavBar({ title = "" }: Props) {
       />
 
       <div className="flex items-center gap-3">
-        <Link href="/shop">Sklep</Link>
+        <Link href="/products">Sklep</Link>
         <Link href="/blog">Blog</Link>
         <Link href="/about">O nas</Link>
         <Link href="/contact">Kontakt</Link>

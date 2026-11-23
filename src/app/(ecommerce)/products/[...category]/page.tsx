@@ -4,7 +4,7 @@ export const instant = false;
  * Strona kategorii
  */
 export default async function CatalogPage(
-  props: PageProps<"/products/[[...category]]">,
+  props: PageProps<"/products/[...category]">,
 ) {
   const { category = [] } = await props.params;
   const { query } = await props.searchParams;

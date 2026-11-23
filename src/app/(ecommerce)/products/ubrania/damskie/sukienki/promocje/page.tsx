@@ -1,7 +1,7 @@
 /**
  * Kategoria Nowosci
  */
-export default async function KategoriaNowosci(props: PageProps<"/products/damskie/sukienki/promocje">) {
+export default async function KategoriaNowosci(props: PageProps<"/products/ubrania/damskie/sukienki/promocje">) {
 //   const { slug } = await props.params;
 //   const { query } = await props.searchParams;
 
