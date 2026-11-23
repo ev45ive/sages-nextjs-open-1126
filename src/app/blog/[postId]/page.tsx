@@ -3,6 +3,15 @@ import { mockBlogPosts } from "../mockBlogPosts";
 
 export const instant = false;
 
+// Generate on BUILD:
+export async function generateStaticParams() {
+  
+  // TODO: select posts from database:
+  const items =  mockBlogPosts.slice(0,4)
+
+  return items.map((item) => ({ postId: String(item.id) }));
+}
+
 /**
  * Strona Posta
  */
@@ -11,7 +20,7 @@ export default async function PostPage(props: PageProps<"/blog/[postId]">) {
 
   const post = mockBlogPosts.find((p) => p.id == Number(postId));
 
-  // if(!post) throw new Error('Not found')
+  if(!post) throw new Error('Not found')
 
   if (!post) {
     notFound(); // never!
