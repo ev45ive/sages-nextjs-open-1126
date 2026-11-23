@@ -57,3 +57,6 @@ Installing devDependencies:
 - typescript
 
 ```
+
+# GIT 
+https://typicode.github.io/husky/ 
