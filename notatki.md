@@ -69,3 +69,7 @@ https://typicode.github.io/husky/
 /contact
 /blog/ 
 /blog/[postId]/ 
+
+# Shared packages
+- private npm registry -> npm i @naszafirma/paczka/compoent  -> Node_modules
+- shadcn component registry -> shadcn add  @naszafirma/paczka  -> src/components/*
