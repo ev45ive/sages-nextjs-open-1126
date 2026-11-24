@@ -36,15 +36,18 @@ export default async function PostPage(props: PageProps<"/blog/[postId]">) {
   // if (postId == "429" && Math.random() > 0.1)
   //   throw new Error("Too many requests" + Math.random());
 
-  await getBlogPostAuthor(postId);
-  await getBlogPostComments(postId);
-  await getBlogPostLikes(postId);
+  // Loading Waterfall A -> B -> C
+  // const post = await getBlogPostById(postId);
+  // await getBlogPostAuthor(postId);
+  // await getBlogPostComments(postId);
+  // await getBlogPostLikes(postId);
 
-  const post = await getBlogPostById(postId);
-  const [author, comments, likes] = await Promise.all([
-    getBlogPostAuthor(postId),
+  // Loading Parallel [A+B+C]
+  const [post, author, comments, likes] = await Promise.all([
+    getBlogPostById(postId),
+    getBlogPostAuthor(postId), // 1000
     getBlogPostComments(postId),
-    getBlogPostLikes(postId),
+    getBlogPostLikes(postId), // 300
   ]);
 
   return (
