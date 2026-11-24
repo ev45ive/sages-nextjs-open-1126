@@ -3,6 +3,7 @@ import { delay } from "@/lib/delay";
 import posts from "../../public/postsdata.json";
 import { BlogPost } from "./model";
 import { connection } from "next/server";
+import { cacheLife } from "next/cache";
 
 function findPost(id: number | string): BlogPost {
   const post: BlogPost | undefined = posts.find((p) => p.id == Number(id));
@@ -16,17 +17,16 @@ export async function getBlogPosts({
   filter?: string;
 } = {}): Promise<BlogPost[]> {
   await connection();
-  await delay(500, 1_000);
+  await delay(500, 200);
 
   return posts.filter((p) =>
     p.title.toLocaleLowerCase().includes(filter.toLocaleLowerCase()),
   );
 }
 
-
 export async function getBlogPostById(id: number | string): Promise<BlogPost> {
-  "use cache";  // buildId-fileid-functionid-serialized-params-hash
-
+  "use cache";
+  cacheLife("minutes");
   console.log("LOADING POST DATA id: " + id);
 
   // await connection();
@@ -40,6 +40,10 @@ export async function getBlogPostById(id: number | string): Promise<BlogPost> {
 }
 
 export async function getBlogPostComments(id: number | string) {
+  "use cache";
+  cacheLife("seconds");
+  console.log("LOADING POST COMMENTS DATA id: " + id);
+
   await delay(3_000, 1_000);
 
   return findPost(id).comments ?? [];
@@ -51,8 +55,27 @@ export async function getBlogPostAuthor(id: number | string) {
   return findPost(id).author;
 }
 
+const thisLikesMapWillBeLost = new Map<BlogPost["id"], number>([]);
+
 export async function getBlogPostLikes(id: number | string): Promise<number> {
+  "use cache";
+
+  // cacheLife("seconds");
+  cacheLife({
+    stale: 30, // fetch from server
+    revalidate: 60, // serve stale, rebuild in background
+    expire: 120, // rebuild fresh on request (loading...)
+  });
+
+  console.log("LOADING POST LIKES DATA id: " + id);
   await delay(300, 300);
 
-  return (Number(id) * 37) % 100;
+  const likes = thisLikesMapWillBeLost.get(Number(id)) ?? 1;
+  if (likes) {
+    thisLikesMapWillBeLost.set(Number(id), likes + 1);
+  }
+
+  return likes;
+
+  // return (Number(id) * 37) % 100;
 }

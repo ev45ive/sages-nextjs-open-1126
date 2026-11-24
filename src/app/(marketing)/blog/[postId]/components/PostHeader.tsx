@@ -5,7 +5,7 @@ import { PostMetaSkeleton } from "./PostSkeletons";
 import { Suspense } from "react";
 
 export async function PostHeader({ postId }: { postId: string }) {
-  const post = await getBlogPostById(postId);
+  const post = await getBlogPostById(postId); // Fetch POST
 
   return (
     <header className="grid gap-4">
