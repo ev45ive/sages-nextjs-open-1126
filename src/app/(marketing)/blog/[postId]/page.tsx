@@ -30,6 +30,8 @@ export async function generateStaticParams() {
 export default async function PostPage(props: PageProps<"/blog/[postId]">) {
   const { postId } = await props.params;
 
+  getBlogPostById(postId) // Start Prefetch
+
   return (
     <article className="mx-auto grid min-w-2xl max-w-3xl gap-8 py-10">
       <Suspense fallback={<PostHeaderSkeleton />}>
