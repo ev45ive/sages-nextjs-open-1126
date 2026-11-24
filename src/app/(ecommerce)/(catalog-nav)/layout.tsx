@@ -1,23 +1,17 @@
-import { Suspense } from "react";
-import { CategoryNav } from "./catalog/CategoryNav";
+import { ReactNode } from "react";
 
-export default async function MarketingLayout({ children }: LayoutProps<"/">) {
-  //   const { slug } = await props.params;
-
+// sidebar to slot @sidebar: każda sekcja (katalog, produkt) dostarcza własny panel bocznego
+export default async function MarketingLayout({
+  children,
+  sidebar,
+}: {
+  children: ReactNode;
+  sidebar: ReactNode;
+}) {
   return (
     <>
       <div className="grid md:grid-cols-[minmax(200px,30%)_1fr] my-5 gap-5 bg-background font-sans container mx-auto">
-        <aside className="border-r pr-6">
-          <Suspense
-            fallback={
-              <p className="text-sm text-muted-foreground">
-                Ładowanie kategorii…
-              </p>
-            }
-          >
-            <CategoryNav />
-          </Suspense>
-        </aside>
+        <aside className="border-r pr-6">{sidebar}</aside>
         <div className="min-w-0">{children}</div>
       </div>
     </>
