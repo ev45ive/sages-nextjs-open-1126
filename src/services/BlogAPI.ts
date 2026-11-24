@@ -3,7 +3,7 @@ import { delay } from "@/lib/delay";
 import posts from "../../public/postsdata.json";
 import { BlogPost } from "./model";
 import { connection } from "next/server";
-import { cacheLife } from "next/cache";
+import { cacheLife, cacheTag } from "next/cache";
 import { getExtraComments } from "./CommentsStore";
 
 function findPost(id: number | string): BlogPost {
@@ -41,9 +41,15 @@ export async function getBlogPostById(id: number | string): Promise<BlogPost> {
 }
 
 export async function getBlogPostComments(id: number | string) {
-  // "use cache";
-  // cacheLife("seconds");
-  // console.log("LOADING POST COMMENTS DATA id: " + id);
+  "use cache";
+
+  cacheLife("seconds");
+  cacheTag(
+    "blog/posts/all/comments", 
+    `blog/posts/${id}/comments` // TODO: TagsMap.blog.posts(id).comments()
+  );
+
+  console.log("LOADING POST COMMENTS DATA id: " + id);
 
   await delay(3_000, 1_000);
 
