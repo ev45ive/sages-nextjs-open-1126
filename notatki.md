@@ -73,3 +73,8 @@ https://typicode.github.io/husky/
 # Shared packages
 - private npm registry -> npm i @naszafirma/paczka/compoent  -> Node_modules
 - shadcn component registry -> shadcn add  @naszafirma/paczka  -> src/components/*
+
+
+# HTTP HAS THIS ALREADY!
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cache-Control
+
