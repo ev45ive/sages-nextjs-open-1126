@@ -4,6 +4,7 @@ https://en.wikipedia.org/wiki/Persistent_data_structure
 ```tsx
 type Task = { id: number; label: string };
 
+
 function App() {
 
   const [tasks, setTasks] = React.useState<Task[]>([
@@ -11,7 +12,10 @@ function App() {
     { id: 2, label: 'Sprawdź drzewo' },
   ]);
 
+  // filteredTasks = useMemo( tasks.filter(...), [query]) // 
+  const filteredTasks =  tasks.filter(...), [query]) // Compiler Memo
 
+  // const addAtStart = useCallback(() => {..},[tasks])
   function addAtStart() {
     // SELECT posts WHERE ...
     
@@ -48,6 +52,9 @@ function App() {
     setTasks(items => items.slice(0, -1));
   }
 
+
+  // vdom1 = f(props1, fiber1)
+  // vdom2 = f(props1, fiber2)
   return (
     <section>
       <button onClick={addAtStart}>Dodaj na początku</button>
