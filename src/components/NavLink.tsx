@@ -3,7 +3,6 @@
 import { cn } from "cn";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { UrlObject } from "node:url";
 import { ComponentProps } from "react";
 
 export function NavLink({ className, ...props }: ComponentProps<typeof Link>) {

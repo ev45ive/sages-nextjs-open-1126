@@ -1,6 +1,5 @@
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { NavLink } from "../NavLink";
 
 type Props = {
