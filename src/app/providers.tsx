@@ -19,14 +19,14 @@ export function Providers({ children }: PropsWithChildren) {
     <>
       <QueryClientProvider client={queryClient}>
         <SomeContextProvider>
-          <ThemeProvider
+          {/* <ThemeProvider
             attribute="class"
             defaultTheme="system"
             enableSystem
             disableTransitionOnChange
-          >
+          > */}
             {children}
-          </ThemeProvider>
+          {/* </ThemeProvider> */}
         </SomeContextProvider>
       </QueryClientProvider>
     </>

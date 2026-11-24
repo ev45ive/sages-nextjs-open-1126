@@ -66,12 +66,12 @@ async function ProductContent({ id }: { id: string }) {
         <p>{product.description}</p>
         <p className="text-sm text-gray-500">Kategoria: {product.category}</p>
         {/* AddToCartButton: klient, dostaje snapshot produktu, który trafia do linii koszyka */}
-        {/* <AddToCartButton
+        <AddToCartButton
           productId={product.id}
           name={product.name}
           price={product.price}
           image={`/demo/images/product/${product.image}`}
-        /> */}
+        />
 
         <Suspense>
           <LikeButton />

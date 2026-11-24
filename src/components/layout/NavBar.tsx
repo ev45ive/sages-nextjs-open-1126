@@ -22,7 +22,7 @@ export default function NavBar({
       </div>
 
       <div className="flex items-center gap-3">
-        <ModeToggle />
+        {/* <ModeToggle /> */}
         <CartBadge />
         <Link href="/account/orders" className="rounded-md px-3 py-1.5">
           Konto

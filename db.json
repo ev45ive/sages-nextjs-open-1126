@@ -323,7 +323,7 @@
     {
       "userId": "1",
       "date": "2026-11-12",
-      "status": "Oczekuje",
+      "status": "Potwierdzone",
       "total": 65,
       "items": [
         {
@@ -371,6 +371,32 @@
         "postalCode": "00-001"
       },
       "id": "iwE0Fc6"
+    },
+    {
+      "userId": "1",
+      "date": "2026-11-24",
+      "status": "Oczekuje",
+      "total": 30,
+      "items": [
+        {
+          "productId": "1004",
+          "name": "Bracelet",
+          "price": 15,
+          "qty": 2
+        }
+      ],
+      "checkout": {
+        "name": "dawd",
+        "email": "dqw@daw.wd",
+        "payment": "card",
+        "note": "",
+        "acceptTerms": true,
+        "delivery": "courier",
+        "street": "daw",
+        "city": "daw",
+        "postalCode": "12-223"
+      },
+      "id": "nynTWi5"
     }
   ],
   "categories": [
