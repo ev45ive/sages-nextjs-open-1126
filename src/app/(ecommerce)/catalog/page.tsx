@@ -6,11 +6,11 @@ export const instant = false;
  * Strona kategorii
  */
 export default async function CatalogPage(
-  props: PageProps<"/products">,
+  props: PageProps<"/catalog">,
 ) {
  
   // if(dzis_sa_swieta...)
-  redirect('/products/nowosci','replace')
+  redirect('/catalog/nowosci','replace')
 }
 
  

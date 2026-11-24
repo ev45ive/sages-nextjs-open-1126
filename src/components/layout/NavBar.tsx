@@ -13,7 +13,7 @@ export default function NavBar({
       {children}
 
       <div className="flex items-center gap-3">
-        <NavLink href="/products">Sklep</NavLink>
+        <NavLink href="/catalog">Sklep</NavLink>
         <NavLink href="/blog">Blog</NavLink>
         <NavLink href="/about">O nas</NavLink>
         <NavLink href="/contact">Kontakt</NavLink>
