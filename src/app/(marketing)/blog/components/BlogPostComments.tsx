@@ -10,7 +10,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { BlogPost } from "@/services/model";
 import { useRouter } from "next/navigation";
-import { useActionState, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 
 type Props = {
   postId: string;
@@ -22,6 +22,11 @@ export function BlogPostComments({
   comments: initialComment = [],
 }: Props) {
   const [comments, setComments] = useState(initialComment);
+
+  useEffect(() => {
+    // Error: Calling setState synchronously within an effect can trigger cascading renders
+    setComments(initialComment);
+  }, [initialComment]);
 
   function addNewComment(draft: { comment: string }) {
     setComments([...comments, { ...draft, user: "123" }]);
@@ -65,8 +70,8 @@ export function BlogPostCommentForm({
     async (state: { message?: string }, data: FormData) => {
       const { message } = await onSaveForm!(data);
 
-      router.refresh();
-      
+      router.refresh(); // Refresh client page cache
+
       return { ...state, message };
     },
     {

@@ -22,6 +22,7 @@ import {
 } from "../components/BlogPostComments";
 import * as CommentsStore from "@/services/CommentsStore";
 import { BlogPost } from "@/services/model";
+import { refresh } from "next/cache";
 
 // export const instant = false;
 
@@ -90,6 +91,8 @@ export async function BlogPostCommentsServer({ postId }: { postId: string }) {
     };
 
     CommentsStore.addExtraComment(postId, { ...draft, user: "test123" });
+
+    refresh(); // Refresh server page cache
 
     return { message: "Sukces!" };
   }

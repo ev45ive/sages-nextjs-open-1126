@@ -41,9 +41,9 @@ export async function getBlogPostById(id: number | string): Promise<BlogPost> {
 }
 
 export async function getBlogPostComments(id: number | string) {
-  "use cache";
-  cacheLife("seconds");
-  console.log("LOADING POST COMMENTS DATA id: " + id);
+  // "use cache";
+  // cacheLife("seconds");
+  // console.log("LOADING POST COMMENTS DATA id: " + id);
 
   await delay(3_000, 1_000);
 
