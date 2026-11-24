@@ -1,10 +1,13 @@
 import { notFound, redirect } from "next/navigation";
 import Image from "next/image";
-import { mockBlogPosts } from "../mockBlogPosts";
-import { delay } from "@/lib/delay";
-
 import postdata from "../../../../../public/postsdata.json";
-import { BlogPost } from "@/services/model";
+import {
+  getBlogPostAuthor,
+  getBlogPostById,
+  getBlogPostComments,
+  getBlogPostLikes,
+} from "@/services/BlogAPI";
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -18,10 +21,7 @@ import {
 
 // Generate on BUILD:
 export async function generateStaticParams() {
-  // TODO: select posts from database:
-  const items = mockBlogPosts.slice(0, 4);
-
-  return items.map((item) => ({ postId: String(item.id) }));
+  return postdata.map((post) => ({ postId: String(post.id) }));
 }
 
 /**
@@ -30,21 +30,22 @@ export async function generateStaticParams() {
 export default async function PostPage(props: PageProps<"/blog/[postId]">) {
   const { postId } = await props.params;
 
-  await delay(1_000, 1_000);
-
-  const post: BlogPost | undefined = postdata.find(
-    (p) => p.id == Number(postId),
-  );
-
-  if (!post) {
-    notFound(); // never!
-  }
-
   if (postId == "500") throw new Error("Server Error");
   if (postId == "404") notFound();
   if (postId == "301") redirect("products", "replace");
   // if (postId == "429" && Math.random() > 0.1)
   //   throw new Error("Too many requests" + Math.random());
+
+  await getBlogPostAuthor(postId);
+  await getBlogPostComments(postId);
+  await getBlogPostLikes(postId);
+
+  const post = await getBlogPostById(postId);
+  const [author, comments, likes] = await Promise.all([
+    getBlogPostAuthor(postId),
+    getBlogPostComments(postId),
+    getBlogPostLikes(postId),
+  ]);
 
   return (
     <article className="mx-auto grid max-w-3xl gap-8 py-10">
@@ -59,10 +60,11 @@ export default async function PostPage(props: PageProps<"/blog/[postId]">) {
         <h1 className="font-heading text-4xl font-bold">{post.title}</h1>
         <div className="flex items-center gap-3">
           <Avatar>
-            <AvatarImage src={post.author.avatar} alt={post.author.name} />
-            <AvatarFallback>{post.author.name.charAt(0)}</AvatarFallback>
+            <AvatarImage src={author.avatar} alt={author.name} />
+            <AvatarFallback>{author.name.charAt(0)}</AvatarFallback>
           </Avatar>
-          <span className="text-muted-foreground">{post.author.name}</span>
+          <span className="text-muted-foreground">{author.name}</span>
+          <span className="text-muted-foreground">· {likes} likes</span>
         </div>
       </header>
 
@@ -88,10 +90,8 @@ export default async function PostPage(props: PageProps<"/blog/[postId]">) {
       )}
 
       <section className="grid gap-4">
-        <h2 className="text-2xl font-semibold">
-          Comments ({post.comments.length})
-        </h2>
-        {post.comments.map((c, index) => (
+        <h2 className="text-2xl font-semibold">Comments ({comments.length})</h2>
+        {comments.map((c, index) => (
           <Card key={index} size="sm">
             <CardHeader>
               <CardTitle>{c.user}</CardTitle>

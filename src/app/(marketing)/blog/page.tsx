@@ -1,11 +1,6 @@
-import { mockBlogPosts } from "./mockBlogPosts";
+import Image from "next/image";
 import Link from "next/link";
-import { delay } from "@/lib/delay";
-
-// Wait with response for this componetn (Bad WebVitals)
-// export const instant = false;
-
-// mockBlogPosts.filter(p =>p.title.toLowerCase().contains(query.toLowerCase())).map()
+import { getBlogPosts } from "@/services/BlogAPI";
 
 /**
  * Lista postów na blogu
@@ -14,31 +9,40 @@ import { delay } from "@/lib/delay";
 export default async function BlogPostListPage(props: PageProps<"/blog">) {
   const { query = "" } = await props.searchParams;
 
-  // let filtered = query as string
-
-  // let filtered = String(query ?? '')
   if (typeof query !== "string") {
     throw new Error("Invalid query");
   }
 
-  await delay(500, 1_000);
-
-  const filteredPosts = mockBlogPosts.filter((p) =>
-    p.title.toLocaleLowerCase().includes(query.toLocaleLowerCase()),
-  );
+  const filteredPosts = await getBlogPosts({ filter: query });
 
   return (
-    <>
-      {/* .grid.grid-cols-2.gap-5>.grid.gap-2*2>h3.text-xl{Title $$} */}
-      <div className="grid md:grid-cols-2 gap-5">
-        {filteredPosts.map((p) => (
-          <div className="grid gap-2" key={p.id}>
-            <h3 className="text-xl">
-              <Link href={`/blog/${p.id}/`}>{p.title}</Link>
-            </h3>
-          </div>
-        ))}
-      </div>
-    </>
+    <ul className="grid grid-cols-1 gap-5 py-10 sm:grid-cols-2 lg:grid-cols-3">
+      {filteredPosts.map((post) => (
+        <li
+          key={post.id}
+          className="grid overflow-hidden rounded-xl border bg-card"
+        >
+          <Link
+            href={`/blog/${post.id}`}
+            className="relative block aspect-2/1 overflow-hidden bg-muted"
+          >
+            {post.images[0] && (
+              <Image
+                src={post.images[0]}
+                alt={post.title}
+                fill
+                sizes="(min-width: 1024px) 336px, (min-width: 640px) 50vw, 100vw"
+                className="object-cover"
+              />
+            )}
+          </Link>
+          <h2 className="px-4 pb-4 text-lg font-semibold">
+            <Link href={`/blog/${post.id}`} className="hover:underline">
+              {post.title}
+            </Link>
+          </h2>
+        </li>
+      ))}
+    </ul>
   );
 }
