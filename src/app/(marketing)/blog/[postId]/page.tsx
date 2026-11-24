@@ -16,6 +16,7 @@ import {
   PostHeaderSkeleton,
   PostImagesSkeleton,
 } from "./components/PostSkeletons";
+import { BlogPostComments } from "../components/BlogPostComments";
 
 // export const instant = false;
 
@@ -30,7 +31,7 @@ export async function generateStaticParams() {
 export default async function PostPage(props: PageProps<"/blog/[postId]">) {
   const { postId } = await props.params;
 
-  getBlogPostById(postId) // Start Prefetch
+  getBlogPostById(postId); // Start Prefetch
 
   return (
     <article className="mx-auto grid min-w-2xl max-w-3xl gap-8 py-10">
@@ -47,26 +48,25 @@ export default async function PostPage(props: PageProps<"/blog/[postId]">) {
       </Suspense>
 
       <Suspense fallback={<PostCommentsSkeleton />}>
-        <BlogPostComments postId={postId} />
+        <BlogPostCommentsServer postId={postId} />
       </Suspense>
     </article>
   );
 }
 
-async function BlogPostComments({ postId }: { postId: string }) {
+export async function BlogPostCommentsServer({ postId }: { postId: string }) {
   const comments = await getBlogPostComments(postId);
 
+  // Functions cannot be passed directly to Client Components unless you explicitly expose it by marking it with "use server". 
+  // (comments as any)[0].tajne = function () {
+  //   "ups..";
+  // };
+
   return (
-    <section className="grid gap-4">
-      <h2 className="text-2xl font-semibold">Comments ({comments.length})</h2>
-      {comments.map((c, index) => (
-        <Card key={index} size="sm">
-          <CardHeader>
-            <CardTitle>{c.user}</CardTitle>
-            <CardDescription>{c.comment}</CardDescription>
-          </CardHeader>
-        </Card>
-      ))}
-    </section>
+    <div className="grid gap-5">
+      <BlogPostComments postId={postId} comments={comments} />
+
+      {/* <BlogPostComments postId={postId} onSave.. /> */}
+    </div>
   );
 }
