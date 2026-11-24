@@ -5,9 +5,8 @@ export const instant = false;
 
 // Generate on BUILD:
 export async function generateStaticParams() {
-  
   // TODO: select posts from database:
-  const items =  mockBlogPosts.slice(0,4)
+  const items = mockBlogPosts.slice(0, 4);
 
   return items.map((item) => ({ postId: String(item.id) }));
 }
@@ -20,9 +19,11 @@ export default async function PostPage(props: PageProps<"/blog/[postId]">) {
 
   const post = mockBlogPosts.find((p) => p.id == Number(postId));
 
-    if(postId == '500') throw new Error('Server Error')
-    if(postId == '404') notFound()
-    if(postId == '301') redirect('products','replace')
+  if (postId == "500") throw new Error("Server Error");
+  if (postId == "404") notFound();
+  if (postId == "301") redirect("products", "replace");
+  if (postId == "429" && Math.random() > 0.1)
+    throw new Error("Too many requests" + Math.random());
 
   if (!post) {
     notFound(); // never!
