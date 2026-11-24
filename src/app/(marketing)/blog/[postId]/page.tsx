@@ -16,6 +16,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { ReactNode, Suspense } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 // export const instant = false;
 
@@ -30,25 +32,7 @@ export async function generateStaticParams() {
 export default async function PostPage(props: PageProps<"/blog/[postId]">) {
   const { postId } = await props.params;
 
-  if (postId == "500") throw new Error("Server Error");
-  if (postId == "404") notFound();
-  if (postId == "301") redirect("products", "replace");
-  // if (postId == "429" && Math.random() > 0.1)
-  //   throw new Error("Too many requests" + Math.random());
-
-  // Loading Waterfall A -> B -> C
-  // const post = await getBlogPostById(postId);
-  // await getBlogPostAuthor(postId);
-  // await getBlogPostComments(postId);
-  // await getBlogPostLikes(postId);
-
-  // Loading Parallel [A+B+C]
-  const [post, author, comments, likes] = await Promise.all([
-    getBlogPostById(postId),
-    getBlogPostAuthor(postId), // 1000
-    getBlogPostComments(postId),
-    getBlogPostLikes(postId), // 300
-  ]);
+  const [post] = await Promise.all([getBlogPostById(postId)]);
 
   return (
     <article className="mx-auto grid max-w-3xl gap-8 py-10">
@@ -61,14 +45,23 @@ export default async function PostPage(props: PageProps<"/blog/[postId]">) {
           ))}
         </div>
         <h1 className="font-heading text-4xl font-bold">{post.title}</h1>
-        <div className="flex items-center gap-3">
-          <Avatar>
-            <AvatarImage src={author.avatar} alt={author.name} />
-            <AvatarFallback>{author.name.charAt(0)}</AvatarFallback>
-          </Avatar>
-          <span className="text-muted-foreground">{author.name}</span>
-          <span className="text-muted-foreground">· {likes} likes</span>
-        </div>
+
+        {/* Still waterfall - async parent waits for async children  */}
+        {/* <UserAvatar postId={postId} /> */}
+
+        <Suspense
+          fallback={
+            <Skeleton className="h-8 w-full">{/* Loading User... */}</Skeleton>
+          }
+        >
+          <PostAuthorAvatar postId={postId}>
+            {/* <PostLikes postId={postId} /> */}
+
+            <Suspense fallback={<Skeleton>Loading Likes...</Skeleton>}>
+              <PostLikes postId={postId} />
+            </Suspense>
+          </PostAuthorAvatar>
+        </Suspense>
       </header>
 
       <p className="text-lg leading-relaxed">{post.body}</p>
@@ -92,17 +85,68 @@ export default async function PostPage(props: PageProps<"/blog/[postId]">) {
         </div>
       )}
 
-      <section className="grid gap-4">
-        <h2 className="text-2xl font-semibold">Comments ({comments.length})</h2>
-        {comments.map((c, index) => (
-          <Card key={index} size="sm">
-            <CardHeader>
-              <CardTitle>{c.user}</CardTitle>
-              <CardDescription>{c.comment}</CardDescription>
-            </CardHeader>
-          </Card>
-        ))}
-      </section>
+      <Suspense fallback={<BlogPostCommentsSkeleton />}>
+        {" "}
+        <BlogPostComments postId={postId} />
+      </Suspense>
     </article>
+  );
+}
+
+async function PostLikes({ postId }: { postId: string }) {
+  const likes = await getBlogPostLikes(postId);
+  return <span>· {likes} likes</span>;
+}
+
+async function PostAuthorAvatar({
+  postId,
+  children,
+}: {
+  children?: ReactNode;
+  postId: string;
+}) {
+  const author = await getBlogPostAuthor(postId);
+  return (
+    <div className="flex items-center gap-3">
+      <Avatar>
+        <AvatarImage src={author.avatar} alt={author.name} />
+        <AvatarFallback>{author.name.charAt(0)}</AvatarFallback>
+      </Avatar>
+      <span className="text-muted-foreground">{author.name}</span>
+      {children && <span className="text-muted-foreground">{children}</span>}
+    </div>
+  );
+}
+
+async function BlogPostComments({ postId }: { postId: string }) {
+  const comments = await getBlogPostComments(postId);
+
+  return (
+    <section className="grid gap-4">
+      <h2 className="text-2xl font-semibold">Comments ({comments.length})</h2>
+      {comments.map((c, index) => (
+        <Card key={index} size="sm">
+          <CardHeader>
+            <CardTitle>{c.user}</CardTitle>
+            <CardDescription>{c.comment}</CardDescription>
+          </CardHeader>
+        </Card>
+      ))}
+    </section>
+  );
+}
+async function BlogPostCommentsSkeleton({}) {
+  return (
+    <>
+      <Skeleton className="h-8 w-48" />
+      {Array.from({ length: 2 }, (_, index) => (
+        <Card key={index} size="sm">
+          <CardHeader>
+            <Skeleton className="h-4 w-24" />
+            <Skeleton className="h-4 w-full" />
+          </CardHeader>
+        </Card>
+      ))}
+    </>
   );
 }

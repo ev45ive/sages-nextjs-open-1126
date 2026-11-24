@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { delay } from "@/lib/delay";
 import posts from "../../public/postsdata.json";
 import { BlogPost } from "./model";
@@ -24,13 +24,17 @@ export async function getBlogPosts({
 export async function getBlogPostById(id: number | string): Promise<BlogPost> {
   await delay(500, 500);
 
+  if (id == "500") throw new Error("Server Error");
+  if (id == "404") notFound();
+  if (id == "301") redirect("products", "replace");
+
   return findPost(id);
 }
 
 export async function getBlogPostComments(id: number | string) {
-  await delay(1_000, 1_000);
+  await delay(3_000, 1_000);
 
-  return findPost(id).comments;
+  return findPost(id).comments ?? [];
 }
 
 export async function getBlogPostAuthor(id: number | string) {
