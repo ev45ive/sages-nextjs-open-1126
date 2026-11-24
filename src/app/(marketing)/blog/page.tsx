@@ -28,6 +28,7 @@ export default async function BlogPostListPage(props: PageProps<"/blog">) {
     <>
       {/* .grid.grid-cols-2.gap-5>.grid.gap-2*2>h3.text-xl{Title $$} */}
       <div className="grid md:grid-cols-2 gap-5">
+        <input/>
         {filteredPosts.map((p) => (
           <div className="grid gap-2" key={p.id}>
             <h3 className="text-xl">

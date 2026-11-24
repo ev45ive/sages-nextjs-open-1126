@@ -3,7 +3,7 @@
 import { Input } from "@/components/ui/input";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ComponentProps, useEffect } from "react";
-import { useDebouncedValue } from "../../../../hooks/useDebouncedValue";
+import { useDebouncedValue } from "@/hooks/useDebouncedValue";
 
 export function BlogFilter({
   placeholder = "Szukaj",
@@ -13,18 +13,19 @@ export function BlogFilter({
   const searchParams = useSearchParams(); // aktualne ?query=.., kopiowane żeby zachować inne parametry
   const queryParam = "query";
 
-  const [query, setQuery] = useDebouncedValue(
-    searchParams.get(queryParam) ?? "",
-  );
+  const currentParam = searchParams.get(queryParam) ?? "";
+  const [query, setQuery] = useDebouncedValue(currentParam);
 
   useEffect(() => {
+    if (query === currentParam) return;
+
     const params = new URLSearchParams(searchParams.toString());
-    if (query) params.set("query", query);
-    else params.delete("query");
+    if (query) params.set(queryParam, query);
+    else params.delete(queryParam);
 
     router.push(`/blog?${params.toString()}`);
     // router.replace(`/blog?${params.toString()}`);
-  }, [query, router, searchParams]);
+  }, [query, router, searchParams, currentParam]);
 
   return (
     <Input
@@ -39,5 +40,3 @@ export function BlogFilter({
     />
   );
 }
-
-

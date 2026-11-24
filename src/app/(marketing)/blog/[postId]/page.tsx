@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { mockBlogPosts } from "../mockBlogPosts";
 
 export const instant = false;
@@ -20,7 +20,9 @@ export default async function PostPage(props: PageProps<"/blog/[postId]">) {
 
   const post = mockBlogPosts.find((p) => p.id == Number(postId));
 
-  if(!post) throw new Error('Not found')
+  if(postId == '500') throw new Error('Server Error')
+  if(postId == '404') notFound()
+  if(postId == '301') redirect('products')
 
   if (!post) {
     notFound(); // never!
