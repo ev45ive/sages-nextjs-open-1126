@@ -8,7 +8,7 @@ export default async function MarketingLayout({ children }: LayoutProps<"/">) {
   return (
     <>
       <NavBar title="Shop" />
-      <div className="grid md:grid-cols-[minmax(300px,30%)_1fr] my-5 gap-5 bg-background font-sans container mx-auto">
+      <div className="grid md:grid-cols-[minmax(200px,30%)_1fr] my-5 gap-5 bg-background font-sans container mx-auto">
         <aside className="border-r pr-6">
           <Suspense
             fallback={
