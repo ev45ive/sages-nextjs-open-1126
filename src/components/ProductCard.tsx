@@ -5,10 +5,13 @@ import type { Product } from "@/services/CatalogAPI";
 import Image from "next/image";
 import Link from "next/link";
 import { lazy, Suspense } from "react";
+import { LikeButton } from "./LikeButton";
 
 // lazy: kod przycisku koszyka jest osobnym fragmentem i ładuje się dopiero, gdy karta jest widoczna
 const AddToCartButton = lazy(() =>
-  import("@/components/AddToCartButton").then((m) => ({ default: m.AddToCartButton })),
+  import("@/components/AddToCartButton").then((m) => ({
+    default: m.AddToCartButton,
+  })),
 );
 
 // eager: pierwsze karty są w HTML od razu (LCP), pozostałe ładują się przy zbliżaniu się do ekranu

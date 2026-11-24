@@ -1,8 +1,11 @@
 import { AddToCartButton } from "@/components/AddToCartButton";
+import { LikeButton } from "@/components/LikeButton";
 import { getProduct, getReviews, getStock } from "@/services/CatalogAPI";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
+
+export const instant = false
 
 // Suspense: params są danymi runtime, więc shell wysyła się od razu, a wyspy strumieniują się same
 export default function ProductPage(props: PageProps<"/product/[id]">) {
@@ -69,6 +72,10 @@ async function ProductContent({ id }: { id: string }) {
           price={product.price}
           image={`/demo/images/product/${product.image}`}
         /> */}
+
+        <Suspense>
+          <LikeButton />
+        </Suspense>
       </div>
     </section>
   );
