@@ -9,7 +9,8 @@ import {
 } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { BlogPost } from "@/services/model";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useActionState, useState } from "react";
 
 type Props = {
   postId: string;
@@ -40,31 +41,54 @@ export function BlogPostComments({
         ))}
       </section>
 
-      <BlogPostCommentForm postId={postId} onSave={addNewComment} />
+      {/* <BlogPostCommentForm postId={postId} onSave={addNewComment} /> */}
     </div>
   );
 }
 
 export function BlogPostCommentForm({
   postId,
+  onSaveForm,
   onSave,
 }: {
   postId: string;
-  onSave: (draft: { comment: string }) => void;
+  onSave?: (draft: { comment: string }) => Promise<{ message?: string }>;
+  onSaveForm?: (data: FormData) => Promise<{ message?: string }>;
 }) {
+  const router = useRouter();
+
+  console.log("Server Action :", onSave);
+
   const [commentText, setCommentText] = useState("");
+
+  const [state, formAction, isPending] = useActionState(
+    async (state: { message?: string }, data: FormData) => {
+      const { message } = await onSaveForm!(data);
+
+      router.refresh();
+      
+      return { ...state, message };
+    },
+    {
+      message: "",
+    },
+  );
+
   return (
     <>
+      <p className="my-2">{isPending && "Saving"}</p>
+      <p className="my-2">{state.message}</p>
+
       <form
+        action={formAction}
         className="space-y-3"
-        onSubmit={(e) => {
-          e.preventDefault(); // Do not reload!
-
-          if (commentText.trim() == "") return;
-
-          onSave({ comment: commentText });
+        onSubmit={async (e) => {
+          //   e.preventDefault(); // Do not reload!
+          //   if (commentText.trim() == "") return;
+          //   const { message } = await onSave({ comment: commentText });
         }}
       >
+        <input type="hidden" name="postId" value={postId} />
         <Textarea
           value={commentText}
           onChange={(e) => setCommentText(e.target.value)}

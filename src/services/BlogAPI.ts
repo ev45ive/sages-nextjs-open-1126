@@ -4,6 +4,7 @@ import posts from "../../public/postsdata.json";
 import { BlogPost } from "./model";
 import { connection } from "next/server";
 import { cacheLife } from "next/cache";
+import { getExtraComments } from "./CommentsStore";
 
 function findPost(id: number | string): BlogPost {
   const post: BlogPost | undefined = posts.find((p) => p.id == Number(id));
@@ -46,7 +47,7 @@ export async function getBlogPostComments(id: number | string) {
 
   await delay(3_000, 1_000);
 
-  return findPost(id).comments ?? [];
+  return getExtraComments(String(id));
 }
 
 export async function getBlogPostAuthor(id: number | string) {

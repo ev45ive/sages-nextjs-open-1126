@@ -16,7 +16,12 @@ import {
   PostHeaderSkeleton,
   PostImagesSkeleton,
 } from "./components/PostSkeletons";
-import { BlogPostComments } from "../components/BlogPostComments";
+import {
+  BlogPostCommentForm,
+  BlogPostComments,
+} from "../components/BlogPostComments";
+import * as CommentsStore from "@/services/CommentsStore";
+import { BlogPost } from "@/services/model";
 
 // export const instant = false;
 
@@ -57,16 +62,44 @@ export default async function PostPage(props: PageProps<"/blog/[postId]">) {
 export async function BlogPostCommentsServer({ postId }: { postId: string }) {
   const comments = await getBlogPostComments(postId);
 
-  // Functions cannot be passed directly to Client Components unless you explicitly expose it by marking it with "use server". 
+  // Functions cannot be passed directly to Client Components unless you explicitly expose it by marking it with "use server".
   // (comments as any)[0].tajne = function () {
   //   "ups..";
   // };
+
+  // Server Actions must be async functions.
+
+  async function createNewComment(
+    draft: Omit<BlogPost["comments"][number], "user">,
+  ) {
+    "use server"; // Expose this as POST /blog/[postId]
+
+    CommentsStore.addExtraComment(postId, { ...draft, user: "test123" });
+
+    console.log("Dodaje nowy comment: " + draft.comment);
+
+    return { message: "Sukces!" };
+  }
+
+  async function createNewCommentForm(data: FormData) {
+    "use server";
+
+    const draft = {
+      comment: data.get("comment")?.toString() ?? "",
+      // postId: data.get("postId"),
+    };
+
+    CommentsStore.addExtraComment(postId, { ...draft, user: "test123" });
+
+    return { message: "Sukces!" };
+  }
 
   return (
     <div className="grid gap-5">
       <BlogPostComments postId={postId} comments={comments} />
 
-      {/* <BlogPostComments postId={postId} onSave.. /> */}
+      {/* <BlogPostCommentForm postId={postId} onSave={createNewComment} /> */}
+      <BlogPostCommentForm postId={postId} onSaveForm={createNewCommentForm} />
     </div>
   );
 }
