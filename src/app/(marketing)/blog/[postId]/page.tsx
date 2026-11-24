@@ -1,10 +1,18 @@
 import { notFound, redirect } from "next/navigation";
+import Image from "next/image";
 import { mockBlogPosts } from "../mockBlogPosts";
 import { delay } from "@/lib/delay";
-import Link from "next/link";
 
 import postdata from "../../../../../public/postsdata.json";
 import { BlogPost } from "@/services/model";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 // export const instant = false;
 
@@ -39,14 +47,55 @@ export default async function PostPage(props: PageProps<"/blog/[postId]">) {
   //   throw new Error("Too many requests" + Math.random());
 
   return (
-    <div>
-      <h3 className="text-2xl">Post {postId}</h3>
+    <article className="mx-auto grid max-w-3xl gap-8 py-10">
+      <header className="grid gap-4">
+        <div className="flex flex-wrap gap-2">
+          {post.tags.map((tag) => (
+            <Badge key={tag} variant="secondary">
+              {tag}
+            </Badge>
+          ))}
+        </div>
+        <h1 className="font-heading text-4xl font-bold">{post.title}</h1>
+        <div className="flex items-center gap-3">
+          <Avatar>
+            <AvatarImage src={post.author.avatar} alt={post.author.name} />
+            <AvatarFallback>{post.author.name.charAt(0)}</AvatarFallback>
+          </Avatar>
+          <span className="text-muted-foreground">{post.author.name}</span>
+        </div>
+      </header>
 
-      <div className="grid gap-2" key={post.id}>
-        <h3 className="text-xl">
-          <Link href={`/blog/${post.id}/`}>{post.title}</Link>
-        </h3>
-      </div>
-    </div>
+      <p className="text-lg leading-relaxed">{post.body}</p>
+
+      {post.images.length > 0 && (
+        <div className="grid gap-4 sm:grid-cols-2">
+          {post.images.map((src, index) => (
+            <Image
+              key={src}
+              src={src}
+              alt={`${post.title} - image ${index + 1}`}
+              width={600}
+              height={300}
+              className="w-full rounded-xl object-cover"
+            />
+          ))}
+        </div>
+      )}
+
+      <section className="grid gap-4">
+        <h2 className="text-2xl font-semibold">
+          Comments ({post.comments.length})
+        </h2>
+        {post.comments.map((c, index) => (
+          <Card key={index} size="sm">
+            <CardHeader>
+              <CardTitle>{c.user}</CardTitle>
+              <CardDescription>{c.comment}</CardDescription>
+            </CardHeader>
+          </Card>
+        ))}
+      </section>
+    </article>
   );
 }

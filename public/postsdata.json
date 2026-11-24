@@ -9,8 +9,8 @@
         },
         "body": "This is the body of the first blog post.",
         "images": [
-            "https://placehold.co/600x300?text=1a",
-            "https://placehold.co/600x300?text=1b"
+            "/demo/images/product/bamboo-watch.jpg",
+            "/demo/images/product/black-watch.jpg"
         ],
         "comments": [
             {
@@ -38,8 +38,8 @@
         },
         "body": "This is the body of the second blog post.",
         "images": [
-            "https://placehold.co/600x300?text=2a",
-            "https://placehold.co/600x300?text=2b"
+            "/demo/images/product/blue-band.jpg",
+            "/demo/images/product/blue-t-shirt.jpg"
         ],
         "comments": [
             {
@@ -67,8 +67,8 @@
         },
         "body": "This is the body of the third blog post.",
         "images": [
-            "https://placehold.co/600x300?text=3a",
-            "https://placehold.co/600x300?text=3b"
+            "/demo/images/product/bracelet.jpg",
+            "/demo/images/product/brown-purse.jpg"
         ],
         "comments": [
             {
@@ -97,8 +97,8 @@
         },
         "body": "This is the body of the fourth blog post.",
         "images": [
-            "https://placehold.co/600x300?text=4a",
-            "https://placehold.co/600x300?text=4b"
+            "/demo/images/product/headphones.jpg",
+            "/demo/images/product/sneakers.jpg"
         ],
         "comments": [
             {
@@ -126,8 +126,8 @@
         },
         "body": "This is the body of the fifth blog post.",
         "images": [
-            "https://placehold.co/600x300?text=5a",
-            "https://placehold.co/600x300?text=5b"
+            "/demo/images/product/yoga-mat.jpg",
+            "/demo/images/product/shoes.jpg"
         ],
         "comments": [
             {
