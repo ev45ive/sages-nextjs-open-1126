@@ -1,8 +1,9 @@
-import NavBar from "@/components/layout/NavBar";
 import { mockBlogPosts } from "./mockBlogPosts";
 import Link from "next/link";
+import { delay } from "@/lib/delay";
 
-export const instant = false;
+// Wait with response for this componetn (Bad WebVitals)
+// export const instant = false;
 
 // mockBlogPosts.filter(p =>p.title.toLowerCase().contains(query.toLowerCase())).map()
 
@@ -20,6 +21,8 @@ export default async function BlogPostListPage(props: PageProps<"/blog">) {
     throw new Error("Invalid query");
   }
 
+  await delay(500, 1_000);
+
   const filteredPosts = mockBlogPosts.filter((p) =>
     p.title.toLocaleLowerCase().includes(query.toLocaleLowerCase()),
   );
@@ -28,7 +31,6 @@ export default async function BlogPostListPage(props: PageProps<"/blog">) {
     <>
       {/* .grid.grid-cols-2.gap-5>.grid.gap-2*2>h3.text-xl{Title $$} */}
       <div className="grid md:grid-cols-2 gap-5">
-        <input/>
         {filteredPosts.map((p) => (
           <div className="grid gap-2" key={p.id}>
             <h3 className="text-xl">
