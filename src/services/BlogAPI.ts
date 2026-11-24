@@ -40,20 +40,23 @@ export async function getBlogPostById(id: number | string): Promise<BlogPost> {
   return findPost(id);
 }
 
-export async function getBlogPostComments(id: number | string) {
+export async function getBlogPostComments(
+  id: number | string,
+): Promise<BlogPost["comments"]> {
   "use cache";
 
   cacheLife("seconds");
   cacheTag(
-    "blog/posts/all/comments", 
-    `blog/posts/${id}/comments` // TODO: TagsMap.blog.posts(id).comments()
+    "blog/posts/all/comments",
+    `blog/posts/${id}/comments`, // TODO: TagsMap.blog.posts(id).comments()
   );
 
   console.log("LOADING POST COMMENTS DATA id: " + id);
 
   await delay(3_000, 1_000);
+  const post = findPost(id);
 
-  return getExtraComments(String(id));
+  return [...post.comments, ...getExtraComments(String(id))];
 }
 
 export async function getBlogPostAuthor(id: number | string) {
