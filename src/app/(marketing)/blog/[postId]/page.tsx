@@ -71,14 +71,18 @@ export default async function PostPage(props: PageProps<"/blog/[postId]">) {
       {post.images.length > 0 && (
         <div className="grid gap-4 sm:grid-cols-2">
           {post.images.map((src, index) => (
-            <Image
+            <div
               key={src}
-              src={src}
-              alt={`${post.title} - image ${index + 1}`}
-              width={600}
-              height={300}
-              className="w-full rounded-xl object-cover"
-            />
+              className="relative aspect-2/1 overflow-hidden rounded-xl bg-muted"
+            >
+              <Image
+                src={src}
+                alt={`${post.title} - image ${index + 1}`}
+                fill
+                sizes="(min-width: 768px) 376px, (min-width: 640px) 50vw, 100vw"
+                className="object-cover"
+              />
+            </div>
           ))}
         </div>
       )}
