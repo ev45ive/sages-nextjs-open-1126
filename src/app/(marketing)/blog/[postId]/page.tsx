@@ -27,26 +27,11 @@ export async function generateStaticParams() {
 /**
  * Strona Posta
  */
-export default function PostPage(props: PageProps<"/blog/[postId]">) {
-  // const { postId } = await props.params;
-
-  return (
-    <>
-      <Suspense>
-        <BlogPost params={props.params} />
-      </Suspense>
-    </>
-  );
-}
-
-async function BlogPost(props: { params: Promise<{ postId: string }> }) {
+export default async function PostPage(props: PageProps<"/blog/[postId]">) {
   const { postId } = await props.params;
 
-  // notFound() guard before streaming starts, so a missing post returns 404
-  // await getBlogPostById(postId);
-
   return (
-    <article className="mx-auto grid max-w-3xl gap-8 py-10">
+    <article className="mx-auto grid min-w-2xl max-w-3xl gap-8 py-10">
       <Suspense fallback={<PostHeaderSkeleton />}>
         <PostHeader postId={postId} />
       </Suspense>

@@ -36,7 +36,7 @@ export function delay(t = 500, jitter = 0, error?: Error) {
           resolve(resolve);
         }
       },
-      t + Math.random() * jitter,
+      t + /* Math.random() * */ jitter,
     );
   });
 }

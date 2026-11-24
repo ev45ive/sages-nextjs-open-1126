@@ -2,6 +2,7 @@ import { notFound, redirect } from "next/navigation";
 import { delay } from "@/lib/delay";
 import posts from "../../public/postsdata.json";
 import { BlogPost } from "./model";
+import { connection } from "next/server";
 
 function findPost(id: number | string): BlogPost {
   const post: BlogPost | undefined = posts.find((p) => p.id == Number(id));
@@ -14,7 +15,9 @@ export async function getBlogPosts({
 }: {
   filter?: string;
 } = {}): Promise<BlogPost[]> {
-  await delay(1_000, 1_000);
+
+  await connection()
+  await delay(500, 1_000);
 
   return posts.filter((p) =>
     p.title.toLocaleLowerCase().includes(filter.toLocaleLowerCase()),
@@ -22,6 +25,8 @@ export async function getBlogPosts({
 }
 
 export async function getBlogPostById(id: number | string): Promise<BlogPost> {
+  
+  await connection()
   await delay(500, 500);
 
   if (id == "500") throw new Error("Server Error");
