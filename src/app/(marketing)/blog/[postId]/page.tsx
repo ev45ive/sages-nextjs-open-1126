@@ -36,12 +36,12 @@ export default async function PostPage(props: PageProps<"/blog/[postId]">) {
         <PostHeader postId={postId} />
       </Suspense>
 
-      <Suspense fallback={<PostContentSkeleton />}>
-        <PostContent postId={postId} />
-      </Suspense>
-
       <Suspense fallback={<PostImagesSkeleton />}>
         <PostImages postId={postId} />
+      </Suspense>
+
+      <Suspense fallback={<PostContentSkeleton />}>
+        <PostContent postId={postId} />
       </Suspense>
 
       <Suspense fallback={<PostCommentsSkeleton />}>

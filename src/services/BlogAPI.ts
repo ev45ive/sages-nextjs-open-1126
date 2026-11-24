@@ -15,8 +15,7 @@ export async function getBlogPosts({
 }: {
   filter?: string;
 } = {}): Promise<BlogPost[]> {
-
-  await connection()
+  await connection();
   await delay(500, 1_000);
 
   return posts.filter((p) =>
@@ -24,9 +23,13 @@ export async function getBlogPosts({
   );
 }
 
+
 export async function getBlogPostById(id: number | string): Promise<BlogPost> {
-  
-  await connection()
+  "use cache";  // buildId-fileid-functionid-serialized-params-hash
+
+  console.log("LOADING POST DATA id: " + id);
+
+  // await connection();
   await delay(500, 500);
 
   if (id == "500") throw new Error("Server Error");

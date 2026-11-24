@@ -2,7 +2,7 @@ import Image from "next/image";
 import { getBlogPostById } from "@/services/BlogAPI";
 
 export async function PostImages({ postId }: { postId: string }) {
-  const post = await getBlogPostById(postId);
+  const post = await getBlogPostById(postId); // Fetch POST
 
   if (post.images.length === 0) return null;
 
