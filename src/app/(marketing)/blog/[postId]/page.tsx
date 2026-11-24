@@ -3,6 +3,9 @@ import { mockBlogPosts } from "../mockBlogPosts";
 import { delay } from "@/lib/delay";
 import Link from "next/link";
 
+import postdata from "../../../../../public/postsdata.json";
+import { BlogPost } from "@/services/model";
+
 // export const instant = false;
 
 // Generate on BUILD:
@@ -21,17 +24,19 @@ export default async function PostPage(props: PageProps<"/blog/[postId]">) {
 
   await delay(1_000, 1_000);
 
-  const post = mockBlogPosts.find((p) => p.id == Number(postId));
+  const post: BlogPost | undefined = postdata.find(
+    (p) => p.id == Number(postId),
+  );
+
+  if (!post) {
+    notFound(); // never!
+  }
 
   if (postId == "500") throw new Error("Server Error");
   if (postId == "404") notFound();
   if (postId == "301") redirect("products", "replace");
   // if (postId == "429" && Math.random() > 0.1)
   //   throw new Error("Too many requests" + Math.random());
-
-  if (!post) {
-    notFound(); // never!
-  }
 
   return (
     <div>
