@@ -1,6 +1,10 @@
-import { fetchGET } from "@/api";
-import { BlogPost, BlogPostComment } from "@/services/BlogAPI";
+import { BlogPost } from "@/services/model";
 import { useState, useEffect } from "react";
+
+type BlogPostComment = BlogPost["comments"][number];
+
+const fetchGET = <T>(url: string, { signal }: { signal: AbortSignal }) =>
+  fetch(url, { signal }).then((res) => res.json() as Promise<T>);
 
 export function useBlogPostCommentsQuery(
   postId = "",

@@ -9,7 +9,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { SOME_CONTEXT } from "@/app/Providers";
 import { use } from "react";
 
 export function ModeToggle() {

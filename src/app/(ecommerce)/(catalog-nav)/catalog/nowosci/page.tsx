@@ -1,7 +1,7 @@
 /**
  * Kategoria Nowosci
  */
-export default async function KategoriaNowosci(props: PageProps<"/products/nowosci">) {
+export default async function KategoriaNowosci(props: PageProps<"/catalog/nowosci">) {
 //   const { slug } = await props.params;
 //   const { query } = await props.searchParams;
 
