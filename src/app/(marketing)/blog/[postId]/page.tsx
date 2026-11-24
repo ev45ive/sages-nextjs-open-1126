@@ -20,9 +20,9 @@ export default async function PostPage(props: PageProps<"/blog/[postId]">) {
 
   const post = mockBlogPosts.find((p) => p.id == Number(postId));
 
-  if(postId == '500') throw new Error('Server Error')
-  if(postId == '404') notFound()
-  if(postId == '301') redirect('products')
+    if(postId == '500') throw new Error('Server Error')
+    if(postId == '404') notFound()
+    if(postId == '301') redirect('products','replace')
 
   if (!post) {
     notFound(); // never!
